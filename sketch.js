@@ -2,13 +2,13 @@ let rectPositions = [];      // Array to store rectangle positions
 let rectDimensions = [];     // Array to store dimensions for each rectangle
 let targetPositions = [];    // Array to store target positions for animation
 let targetDimensions = [];    // Array to store target dimensions for animation
-let originalPositions = [];  // Array to store original positions
-let originalDimensions = []; // Array to store original dimensions for each rectangle
 let numberOfRects = 71;      // Total number of rectangles
-let colors = [];             // Array to store colors for each rectangle
-let repelThreshold = 200;    // Distance at which rectangles start repelling
-let canvas;                  // Canvas variable
-let randomizeButton;         // Button to randomize positions and sizes
+let colors = [];              // Array to store colors for each rectangle
+let repelThreshold = 200;     // Distance at which rectangles start repelling
+let canvas;                   // Canvas variable
+let randomizeButton;          // Button to randomize positions and sizes
+let rectCountSlider;          // Slider for setting the number of rectangles
+let colorOptions = [];         // Array to store color options
 
 function setup() {
   canvas = createCanvas(1000, 700);
@@ -16,16 +16,37 @@ function setup() {
   background('#3B1E54');
 
   // Create a button to randomize positions and sizes
-  randomizeButton = createButton('New Art Pice');
+  randomizeButton = createButton('New Art Piece');
   randomizeButton.position(10, 10); // Position the button on the screen
   randomizeButton.mousePressed(randomize); // Call randomize function on press
 
+  // Create a slider for setting the number of rectangles
+  rectCountSlider = createSlider(4, 150, 71); // Min: 4, Max: 150, Initial: 71
+  rectCountSlider.position(10, 50); // Position the slider
+  rectCountSlider.style('width', '150px'); // Set width of the slider
+  rectCountSlider.input(updateRectCount); // Call updateRectCount on input change
+
   // Define a set of colors
-  let colorOptions = [
+  colorOptions = [
     color('#9B7EBD'),
     color('#D4BEE4'),     
     color('#EEEEEE'),     
   ];
+
+  // Initialize rectangles
+  initializeRectangles();
+}
+
+// Function to initialize rectangles
+function initializeRectangles() {
+  // Clear existing rectangle data
+  rectPositions = [];
+  rectDimensions = [];
+  targetPositions = [];
+  targetDimensions = [];
+  colors = [];
+
+  numberOfRects = rectCountSlider.value(); // Get the current value from the slider
 
   // Generate random positions, dimensions, and colors for each rectangle
   for (let i = 0; i < numberOfRects; i++) {
@@ -33,18 +54,21 @@ function setup() {
     let y = random(height - 20);
     rectPositions.push({ x: x, y: y });        // Current positions
     targetPositions.push({ x: x, y: y });      // Target positions for animation
-    originalPositions.push({ x: x, y: y });    // Original positions
 
     let w = random(10, 200);                   // Random width
     let h = random(10, 200);                   // Random height
     rectDimensions.push({ w: w, h: h });
     targetDimensions.push({ w: w, h: h });     // Target dimensions for animation
-    originalDimensions.push({ w: w, h: h });   // Store the original dimensions for scaling reset
 
     // Select a random color for each rectangle
     let randomColor = random(colorOptions);
     colors.push(randomColor);
   }
+}
+
+// Function to update the number of rectangles based on slider value
+function updateRectCount() {
+  initializeRectangles(); // Reinitialize rectangles with the new count
 }
 
 // Function to randomize positions and sizes
