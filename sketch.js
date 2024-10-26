@@ -4,7 +4,7 @@ let targetPositions = [];    // Array to store target positions for animation
 let targetDimensions = [];    // Array to store target dimensions for animation
 let originalPositions = [];  // Array to store original positions
 let originalDimensions = []; // Array to store original dimensions for each rectangle
-let numberOfRects = 70;      // Total number of rectangles
+let numberOfRects = 71;      // Total number of rectangles
 let colors = [];             // Array to store colors for each rectangle
 let repelThreshold = 200;    // Distance at which rectangles start repelling
 let canvas;                  // Canvas variable
